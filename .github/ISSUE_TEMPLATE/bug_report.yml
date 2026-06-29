@@ -1,0 +1,54 @@
+name: Bug Report
+description: Report a bug in parse_response.py, extract_threads.py, slide generation, or HTML output.
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: textarea
+    id: description
+    attributes:
+      label: Describe the bug
+      placeholder: A clear and concise description of what the bug is.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Run '...'
+        2. See error
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: Expected behavior
+      placeholder: What should have happened instead.
+  - type: textarea
+    id: response_info
+    attributes:
+      label: Response document info
+      placeholder: |
+        - Response size: (e.g., 53,000 Chinese characters)
+        - Format: (md / docx)
+        - Number of sections: (e.g., 19 chapters)
+  - type: textarea
+    id: extraction_output
+    attributes:
+      label: Extraction output (if applicable)
+      placeholder: Paste extract_threads.py output or error message.
+  - type: textarea
+    id: slide_content
+    attributes:
+      label: Affected slides (if applicable)
+      placeholder: Which slide numbers or layouts are affected.
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      options:
+        - Claude Code
+        - Codex
+        - Other
+    validations:
+      required: true

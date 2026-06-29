@@ -1,0 +1,31 @@
+name: Feature Request
+description: Suggest a new feature or improvement.
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem or use case
+      placeholder: What problem does this feature solve? What's the use case?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed solution
+      placeholder: How should this work? Which files would be affected?
+  - type: dropdown
+    id: scope
+    attributes:
+      label: Scope
+      options:
+        - Extraction algorithm (extract_threads.py)
+        - Slide generation (SKILL.md workflow)
+        - HTML output (guizang-ppt integration)
+        - Script behavior (parse_response.py)
+        - Reference content (defense-strategy.md)
+        - Documentation
+        - Other
+    validations:
+      required: true
