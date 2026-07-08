@@ -1,4 +1,4 @@
-# 环境搭建指南 · 从零开始
+# 环境搭建指南 · 从零开始（Mac版）
 
 本文档面向**零基础用户**，手把手完成 Claude Code + VS Code + Skills 的完整搭建。
 
@@ -118,6 +118,7 @@ mkdir -p ~/.claude
 ```
 
 > **说明**：
+>
 > - `model` 可选 `deepseek-v3`（速度快）或 `deepseek-r1`（推理强，适合复杂任务）
 > - `apiBaseUrl` 使用 DeepSeek 的 OpenAI 兼容端点
 > - 不需要 Anthropic 账号，不需要登录
@@ -142,23 +143,29 @@ Skills 是 Claude Code 的扩展能力包，存放在 `~/.claude/skills/` 目录
 git clone https://github.com/op7418/guizang-ppt-skill ~/.claude/skills/guizang-ppt
 ```
 
-### 6.2 安装 moi-bid-defense（讲标答辩）
+### 6.2 安装 moi-bid-response（投标响应文件编写）
+
+```bash
+git clone https://github.com/MoiTempete/moi-bid-response ~/.claude/skills/moi-bid-response
+```
+
+### 6.3 安装 moi-bid-defense（讲标答辩幻灯片）
 
 ```bash
 git clone https://github.com/MoiTempete/moi-bid-defense ~/.claude/skills/moi-bid-defense
 ```
 
-### 6.3 安装 moi-hardware-inquiry（硬件询价，可选）
+### 6.4 安装 moi-hardware-inquiry（硬件询价，可选）
 
 ```bash
 git clone https://github.com/MoiTempete/moi-hardware-inquiry ~/.claude/skills/moi-hardware-inquiry
 ```
 
-### 6.4 验证 Skills 已安装
+### 6.5 验证 Skills 已安装
 
 ```bash
 ls ~/.claude/skills/
-# 应显示: guizang-ppt  moi-bid-defense  moi-hardware-inquiry
+# 应显示: guizang-ppt  moi-bid-response  moi-bid-defense  moi-hardware-inquiry
 ```
 
 ---

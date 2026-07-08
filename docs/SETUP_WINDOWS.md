@@ -148,23 +148,29 @@ echo "你好，请回复'环境正常'" | claude -p -
 git clone https://github.com/op7418/guizang-ppt-skill $env:USERPROFILE\.claude\skills\guizang-ppt
 ```
 
-### 6.2 安装 moi-bid-defense（讲标答辩）
+### 6.2 安装 moi-bid-response（投标响应文件编写）
+
+```powershell
+git clone https://github.com/MoiTempete/moi-bid-response $env:USERPROFILE\.claude\skills\moi-bid-response
+```
+
+### 6.3 安装 moi-bid-defense（讲标答辩幻灯片）
 
 ```powershell
 git clone https://github.com/MoiTempete/moi-bid-defense $env:USERPROFILE\.claude\skills\moi-bid-defense
 ```
 
-### 6.3 安装 moi-hardware-inquiry（硬件询价，可选）
+### 6.4 安装 moi-hardware-inquiry（硬件询价，可选）
 
 ```powershell
 git clone https://github.com/MoiTempete/moi-hardware-inquiry $env:USERPROFILE\.claude\skills\moi-hardware-inquiry
 ```
 
-### 6.4 验证
+### 6.5 验证
 
 ```powershell
 dir $env:USERPROFILE\.claude\skills\
-# 应显示: guizang-ppt  moi-bid-defense  moi-hardware-inquiry
+# 应显示: guizang-ppt  moi-bid-response  moi-bid-defense  moi-hardware-inquiry
 ```
 
 ---
