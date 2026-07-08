@@ -57,19 +57,11 @@ git --version
 
 ---
 
-## 三、安装 VS Code + Claude Code 插件
-
-### 3.1 安装 VS Code
+## 三、安装 VS Code（编辑器）
 
 从 [https://code.visualstudio.com/](https://code.visualstudio.com/) 下载安装。
 
-### 3.2 安装 Claude Code 官方插件
-
-1. 打开 VS Code
-2. 点击左侧扩展图标（或按 `Cmd+Shift+X`）
-3. 搜索 `Claude Code`
-4. 找到由 Anthropic 发布的官方插件，点击安装
-5. 安装完成后重启 VS Code
+> VS Code 作为编辑器使用，打开项目文件夹后在内置终端中运行 `claude` 命令即可，不需要安装任何插件。
 
 ---
 
@@ -211,11 +203,14 @@ cd ~/Desktop/广汇能源安全生产信息化（二期）
 
 1. 启动 VS Code
 2. `File → Open Folder` → 选择你的项目目录
-3. 按 `Cmd+Shift+P` → 输入 `Claude Code: Open`
+3. 按 `Ctrl+` ` 打开内置终端（或 `Terminal → New Terminal`）
+4. 在终端中直接输入 `/moi-bid-defense` 或自然语言指令
+
+> Claude Code CLI 在终端中运行，VS Code 纯粹作为文件编辑器使用。不需要安装任何 VS Code 插件。
 
 ### 8.3 调用 Skill
 
-在 Claude Code 对话框中输入：
+在终端中直接输入指令，Claude Code 会加载对应 skill：
 
 ```
 /moi-bid-defense
@@ -224,7 +219,7 @@ cd ~/Desktop/广汇能源安全生产信息化（二期）
 讲标时长 20 分钟，默认配置即可
 ```
 
-Claude Code 会自动加载 skill 并按工作流逐步生成幻灯片。
+或者用自然语言描述需求，Claude Code 会自动匹配最合适的 skill。
 
 ---
 
@@ -242,7 +237,7 @@ source ~/.zshrc
 
 ### Q: DeepSeek API 返回 401？
 
-检查 `~/.claude/settings.json` 中的 `apiKey` 是否正确。注意 API Key 格式为 `sk-` 开头。
+检查 `~/.claude/settings.json` 中 `ANTHROPIC_AUTH_TOKEN` 的值是否正确，以 `sk-` 开头。
 
 ### Q: DeepSeek API 返回额度不足？
 
@@ -261,15 +256,6 @@ PLAYWRIGHT_DOWNLOAD_HOST=https://npmmirror.com/mirrors/playwright python3 -m pla
 
 系统需要已安装 Google Chrome 浏览器。如果用的是 Chromium，修改脚本中的 `channel="chrome"` 为 `channel="chromium"`。
 
-### Q: VS Code 插件无法连接 Claude Code CLI？
-
-1. 确认 `claude --version` 能正常输出
-2. 在 VS Code 设置中搜索 `claude-code.path`，手动指定 CLI 路径：
-   ```bash
-   which claude  # 复制输出路径
-   ```
-3. 将路径粘贴到 VS Code 设置中
-
 ---
 
 ## 十、环境检查清单
@@ -280,9 +266,8 @@ PLAYWRIGHT_DOWNLOAD_HOST=https://npmmirror.com/mirrors/playwright python3 -m pla
 - [ ] `node --version` ≥ v20
 - [ ] `git --version` 正常
 - [ ] `claude --version` 正常
-- [ ] `ls ~/.claude/skills/` 显示 3 个 skill 目录
+- [ ] `ls ~/.claude/skills/` 显示 4 个 skill 目录
 - [ ] `python3 -c "import docx, openpyxl, pptx; print('OK')"` 正常
-- [ ] VS Code 插件已安装
 - [ ] DeepSeek API Key 已配置在 `~/.claude/settings.json`
 - [ ] 测试对话 `echo "hello" | claude -p -` 能正常回复
 

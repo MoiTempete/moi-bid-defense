@@ -56,21 +56,14 @@ git --version
 
 ---
 
-## 三、安装 VS Code + Claude Code 插件
-
-### 3.1 安装 VS Code
+## 三、安装 VS Code（编辑器）
 
 1. 打开 [https://code.visualstudio.com/](https://code.visualstudio.com/)
 2. 下载 Windows 版安装包
 3. 运行安装，建议勾选「添加到右键菜单」和「添加到 PATH」
 4. 完成安装后启动 VS Code
 
-### 3.2 安装 Claude Code 官方插件
-
-1. 点击左侧扩展图标（或按 `Ctrl+Shift+X`）
-2. 搜索 `Claude Code`
-3. 找到由 Anthropic 发布的官方插件，点击安装
-4. 安装完成后重启 VS Code
+> VS Code 作为编辑器使用，打开项目文件夹后在内置终端中运行 `claude` 命令即可，不需要安装任何插件。
 
 ---
 
@@ -214,11 +207,14 @@ python -c "from playwright.sync_api import sync_playwright; print('Playwright OK
 
 1. 启动 VS Code
 2. `File → Open Folder` → 选择你的项目文件夹
-3. 按 `Ctrl+Shift+P` → 输入 `Claude Code: Open`
+3. 按 `Ctrl+` ` 打开内置终端（或 `Terminal → New Terminal`）
+4. 在终端中直接输入 `/moi-bid-defense` 或自然语言指令
+
+> Claude Code CLI 在终端中运行，VS Code 纯粹作为文件编辑器使用。
 
 ### 8.3 调用 Skill
 
-在 Claude Code 对话框中输入：
+在终端中直接输入指令：
 
 ```
 /moi-bid-defense
@@ -252,7 +248,7 @@ Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ### Q: DeepSeek API 返回 401？
 
-检查 `C:\Users\你的用户名\.claude\settings.json` 中的 `apiKey` 是否正确，API Key 以 `sk-` 开头。
+检查 `C:\Users\你的用户名\.claude\settings.json` 中 `ANTHROPIC_AUTH_TOKEN` 的值是否正确，以 `sk-` 开头。
 
 ### Q: DeepSeek API 额度不足？
 
@@ -287,19 +283,6 @@ git config --global http.proxy http://127.0.0.1:7890
 git clone https://ghproxy.com/https://github.com/op7418/guizang-ppt-skill $env:USERPROFILE\.claude\skills\guizang-ppt
 ```
 
-### Q: VS Code 插件无法连接 Claude Code CLI？
-
-1. 确认 `claude --version` 能正常输出
-2. 在 VS Code 中按 `Ctrl+,` 打开设置
-3. 搜索 `claude-code.path`
-4. 填入 claude CLI 的完整路径：
-
-   ```powershell
-   # 先获取路径
-   where.exe claude
-   # 复制输出，粘贴到 VS Code 设置中
-   ```
-
 ---
 
 ## 十、环境检查清单
@@ -310,9 +293,8 @@ git clone https://ghproxy.com/https://github.com/op7418/guizang-ppt-skill $env:U
 - [ ] `node --version` ≥ v20
 - [ ] `git --version` 正常
 - [ ] `claude --version` 正常
-- [ ] `dir %USERPROFILE%\.claude\skills\` 显示 3 个 skill 目录
+- [ ] `dir %USERPROFILE%\.claude\skills\` 显示 4 个 skill 目录
 - [ ] `python -c "import docx, openpyxl, pptx; print('OK')"` 正常
-- [ ] VS Code 插件已安装
 - [ ] DeepSeek API Key 已配置在 `%USERPROFILE%\.claude\settings.json`
 - [ ] 测试对话 `echo "hello" | claude -p -` 能正常回复
 
