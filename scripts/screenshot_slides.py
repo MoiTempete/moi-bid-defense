@@ -1,0 +1,61 @@
+#!/usr/bin/env python3
+"""Automated screenshot capture for HTML slide decks using Playwright + system Chrome.
+
+Usage:
+    python3 screenshot_slides.py <index.html路径> [输出目录]
+
+Output:
+    在输出目录下生成 P01.png ~ PNN.png，每页一张 1920x1080 截图。
+"""
+
+import os, sys, time
+from playwright.sync_api import sync_playwright
+
+
+def capture_slides(html_path: str, out_dir: str, page_count: int = 18) -> list[str]:
+    """Capture screenshots of all slides in an HTML deck.
+
+    Args:
+        html_path: Absolute path to the index.html file
+        out_dir: Directory to save PNG screenshots
+        page_count: Number of slides to capture (default 18)
+
+    Returns:
+        List of saved file paths
+    """
+    os.makedirs(out_dir, exist_ok=True)
+    file_url = "file://" + os.path.abspath(html_path)
+    screenshots = []
+
+    with sync_playwright() as p:
+        # Use system Chrome (no extra download needed)
+        browser = p.chromium.launch(channel="chrome", headless=True)
+        page = browser.new_page(viewport={"width": 1920, "height": 1080})
+        page.goto(file_url, wait_until="networkidle")
+        page.wait_for_timeout(3000)  # Wait for WebGL + animations
+
+        for i in range(page_count):
+            if i > 0:
+                page.keyboard.press("ArrowRight")
+                page.wait_for_timeout(1500)  # Wait for slide transition
+
+            path = os.path.join(out_dir, f"P{i + 1:02d}.png")
+            page.screenshot(path=path, full_page=False)
+            screenshots.append(path)
+            print(f"  P{i + 1:02d}/{page_count:02d} saved")
+
+        browser.close()
+
+    print(f"Done: {len(screenshots)} screenshots → {out_dir}")
+    return screenshots
+
+
+if __name__ == "__main__":
+    if len(sys.argv) < 2:
+        print("Usage: python3 screenshot_slides.py <index.html> [out_dir] [page_count]")
+        sys.exit(1)
+
+    html = sys.argv[1]
+    out = sys.argv[2] if len(sys.argv) > 2 else os.path.join(os.path.dirname(html), "screenshots")
+    count = int(sys.argv[3]) if len(sys.argv) > 3 else 18
+    capture_slides(html, out, count)
