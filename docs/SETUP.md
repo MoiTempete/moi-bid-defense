@@ -110,18 +110,25 @@ mkdir -p ~/.claude
 
 ```json
 {
-  "model": "deepseek-v3",
-  "apiKey": "sk-你的DeepSeek API Key",
-  "apiBaseUrl": "https://api.deepseek.com/v1",
-  "provider": "openai-compatible"
+  "env": {
+    "ANTHROPIC_AUTH_TOKEN": "sk-你的DeepSeek API Key",
+    "ANTHROPIC_BASE_URL": "https://api.deepseek.com/anthropic",
+    "ANTHROPIC_MODEL": "deepseek-v4-pro",
+    "ANTHROPIC_DEFAULT_HAIKU_MODEL": "deepseek-v4-flash",
+    "ANTHROPIC_DEFAULT_SONNET_MODEL": "deepseek-v4-pro",
+    "ANTHROPIC_DEFAULT_OPUS_MODEL": "deepseek-v4-pro"
+  }
 }
 ```
 
 > **说明**：
 >
-> - `model` 可选 `deepseek-v3`（速度快）或 `deepseek-r1`（推理强，适合复杂任务）
-> - `apiBaseUrl` 使用 DeepSeek 的 OpenAI 兼容端点
+> - DeepSeek 提供了 Anthropic 兼容端点（`/anthropic`），Claude Code 可零改动接入
+> - `ANTHROPIC_AUTH_TOKEN` 填入你的 DeepSeek API Key（`sk-` 开头）
+> - 模型可按需调整：日常用 `deepseek-v4-pro`，轻量任务用 `deepseek-v4-flash`
 > - 不需要 Anthropic 账号，不需要登录
+>
+> **安全提示**：API Key 是敏感信息。建议使用 `settings.local.json`（而非 `settings.json`）存储含 Key 的配置。两个文件格式完全相同，`settings.local.json` 不会被 git 追踪，优先级更高。
 
 ### 5.3 验证连接
 
