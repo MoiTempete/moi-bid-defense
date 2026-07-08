@@ -56,14 +56,22 @@ git --version
 
 ---
 
-## 三、安装 VS Code（编辑器）
+## 三、安装 VS Code + Claude Code 扩展
+
+### 3.1 安装 VS Code
 
 1. 打开 [https://code.visualstudio.com/](https://code.visualstudio.com/)
 2. 下载 Windows 版安装包
 3. 运行安装，建议勾选「添加到右键菜单」和「添加到 PATH」
 4. 完成安装后启动 VS Code
 
-> VS Code 作为编辑器使用，打开项目文件夹后在内置终端中运行 `claude` 命令即可，不需要安装任何插件。
+### 3.2 安装 Claude Code 扩展
+
+1. 点击左侧扩展图标（或按 `Ctrl+Shift+X`）
+2. 搜索 `Claude Code`
+3. 找到由 Anthropic 发布的官方扩展，点击安装
+
+> 此扩展是 Claude Code CLI 的 VS Code 界面封装，复用 `settings.json` 中的 DeepSeek 配置。不需要 Anthropic 账号，不需要付费。如果不想装扩展，终端中直接运行 `claude` 命令也一样可用。
 
 ---
 
@@ -78,6 +86,7 @@ npm install -g @anthropic-ai/claude-code
 ```
 
 > 如果遇到执行策略限制，先运行：
+>
 > ```powershell
 > Set-ExecutionPolicy RemoteSigned -Scope CurrentUser
 > ```
@@ -124,6 +133,7 @@ mkdir $env:USERPROFILE\.claude -Force
 ```
 
 > **说明**：
+>
 > - DeepSeek 提供了 Anthropic 兼容端点（`/anthropic`），Claude Code 可零改动接入
 > - `ANTHROPIC_AUTH_TOKEN` 填入你的 DeepSeek API Key（`sk-` 开头）
 > - 模型可按需调整：日常用 `deepseek-v4-pro`，轻量任务用 `deepseek-v4-flash`
@@ -207,10 +217,10 @@ python -c "from playwright.sync_api import sync_playwright; print('Playwright OK
 
 1. 启动 VS Code
 2. `File → Open Folder` → 选择你的项目文件夹
-3. 按 `Ctrl+` ` 打开内置终端（或 `Terminal → New Terminal`）
-4. 在终端中直接输入 `/moi-bid-defense` 或自然语言指令
+3. 按 `Ctrl+Shift+P` → 输入 `Claude Code: Open` 打开对话面板
+4. 在对话面板中直接输入 `/moi-bid-defense` 或自然语言指令
 
-> Claude Code CLI 在终端中运行，VS Code 纯粹作为文件编辑器使用。
+> 也可以在内置终端（`Ctrl+` `）中直接运行 `claude` 命令，效果相同。
 
 ### 8.3 调用 Skill
 
@@ -268,7 +278,7 @@ python -m playwright install chromium
 系统需要已安装 Google Chrome 浏览器（不是 Chromium Edge）。如果只有 Edge：
 
 1. 打开 `~/.claude/skills/moi-bid-defense/scripts/screenshot_slides.py`
-2. 找到 `channel="chrome"` 
+2. 找到 `channel="chrome"`
 3. 改为 `channel="msedge"`
 
 ### Q: `git clone` 速度太慢？

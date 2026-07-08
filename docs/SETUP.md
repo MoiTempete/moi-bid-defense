@@ -57,11 +57,19 @@ git --version
 
 ---
 
-## 三、安装 VS Code（编辑器）
+## 三、安装 VS Code + Claude Code 扩展
+
+### 3.1 安装 VS Code
 
 从 [https://code.visualstudio.com/](https://code.visualstudio.com/) 下载安装。
 
-> VS Code 作为编辑器使用，打开项目文件夹后在内置终端中运行 `claude` 命令即可，不需要安装任何插件。
+### 3.2 安装 Claude Code 扩展
+
+1. 打开 VS Code，点击左侧扩展图标（或按 `Cmd+Shift+X`）
+2. 搜索 `Claude Code`
+3. 找到由 Anthropic 发布的官方扩展，点击安装
+
+> 此扩展是 Claude Code CLI 的 VS Code 界面封装，复用 `~/.claude/settings.json` 中的 DeepSeek 配置。不需要 Anthropic 账号，不需要付费。提供侧边栏对话面板，体验比纯终端更好。如果不想装扩展，终端中直接运行 `claude` 命令也一样可用。
 
 ---
 
@@ -203,10 +211,10 @@ cd ~/Desktop/广汇能源安全生产信息化（二期）
 
 1. 启动 VS Code
 2. `File → Open Folder` → 选择你的项目目录
-3. 按 `Ctrl+` ` 打开内置终端（或 `Terminal → New Terminal`）
-4. 在终端中直接输入 `/moi-bid-defense` 或自然语言指令
+3. 按 `Cmd+Shift+P` → 输入 `Claude Code: Open` 打开对话面板
+4. 在对话面板中直接输入 `/moi-bid-defense` 或自然语言指令
 
-> Claude Code CLI 在终端中运行，VS Code 纯粹作为文件编辑器使用。不需要安装任何 VS Code 插件。
+> 也可以在内置终端（`Ctrl+` `）中直接运行 `claude` 命令，效果相同。
 
 ### 8.3 调用 Skill
 
