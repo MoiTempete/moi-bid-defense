@@ -369,19 +369,102 @@ git clone https://github.com/op7418/guizang-ppt-skill ~/.claude/skills/guizang-p
 - 每页的"数据大字报"使用 Data Hero / KPI Hero 布局放大
 - 深色背景页慎用——如果视觉效果不好，统一改为白底
 - 确保所有文字在投屏场景下可读（正文 ≥18px，描述 ≥16px，标签 ≥14px）
-- 生成后打开 HTML 逐页检查，修复内容稀疏、字号过小、颜色不可读等问题
+- 生成后执行自动化视觉检查（Step 5d），修复内容稀疏、字号过小、颜色不可读等问题
 
 **如果用户指定其他 PPT 工具**：
 
 按用户指定的工具（如标准 PPTX、Keynote、Google Slides 等）生成对应格式。对于 PPTX，可生成结构化 JSON → `python-pptx` 直接生成。
 
-#### 5d. 输出文件清单
+#### 5d. 自动化视觉检查与修复（必须执行）
+
+在 HTML 生成完成后，**必须**运行以下自动化截图 + 审查 + 修复循环，不再依赖用户手动截图反馈：
+
+##### 5d-1. 自动截图
+
+使用 Playwright + 系统 Chrome 对所有幻灯片逐页截图：
+
+```bash
+python3 ~/.claude/skills/moi-bid-defense/scripts/screenshot_slides.py <ppt/index.html路径> <截图输出目录> <页数>
+```
+
+- 自动打开 HTML → 逐页截取 1920×1080 PNG → 保存至 `ppt/screenshots/`
+- 依赖 `playwright`（`pip3 install playwright`），不需要额外安装 Chromium（使用系统已安装的 Chrome）
+
+##### 5d-2. 读图诊断
+
+截图完成后，使用 Read 工具逐页读取截图，按以下检查清单诊断：
+
+| 检查项 | 判定标准 | 修复方法 |
+|--------|---------|---------|
+| **字号可读性** | 正文 < 16px、描述 < 14px → 不通过 | 全局 +2px，字重 +100 |
+| **标题/正文层级** | 卡片标题 ≤ 正文字号 → 层级反转 | 标题 > 正文至少 2px 且为粗体 |
+| **内容密度** | 单页空白区域 > 40% → 太空 | 换更紧凑的 Sxx 版式或扩充描述 |
+| **信息过载** | 单行技术栈名称 > 8 个组件 → 不可读 | 精简至 3-5 个核心组件 + "等" |
+| **暗底文字** | dark 主题页正文 `rgba(...,<0.9)` → 太暗 | 提至 `.92` 以上 |
+| **排版失衡** | 内容堆在左侧 < 50% 宽度 → 布局错误 | 换全宽版式（如 S16/S20 替代 S02 纵向时间线） |
+| **KPI 间距** | KPI 区与上方内容 < 1.5vh → 太挤 | padding-top 增至 2vh |
+| **文字墙** | 卡片内连续 > 6 行长段落无粗体关键词 → 不可扫读 | 关键数字/术语加 `<b>` 或分段 |
+| **条目缺失** | 列表项数与投喂版不一致 → 遗漏 | 检查 grid 行数，补充缺失条目 |
+| **深色背景页效果** | 如果视觉效果不好 | 统一改为白底 |
+
+##### 5d-3. 修复与验证
+
+发现问题后直接编辑 `index.html` 修复，然后重新运行截图脚本验证。重复此循环直至所有页面通过检查。
+
+典型修复命令示例：
+```bash
+# 全局字号字重提升
+python3 -c "
+html = open('index.html').read()
+html = html.replace('font-size:14px', 'font-size:16px')
+html = html.replace('font-weight:300', 'font-weight:400')
+open('index.html','w').write(html)
+"
+
+# 重新截图验证
+python3 ~/.claude/skills/moi-bid-defense/scripts/screenshot_slides.py index.html screenshots 18
+```
+
+#### 5e. 生成视觉诊断报告（建议执行）
+
+自动化检查通过后，生成一份可交付客户的诊断报告：
+
+```bash
+python3 -c "
+# 自动生成 Markdown 诊断报告，逐页列出状态、版式、要点，嵌入截图引用
+# 见 Step 5d 诊断清单格式
+"
+```
+
+报告输出为 `视觉诊断报告.md`，包含：
+- 诊断概览表（页数、版式数、通过率）
+- 逐页状态（✅/⚠️）+ 版式说明 + 内容要点
+- 10 项诊断标准的通过情况
+- 嵌入 `ppt/screenshots/` 中的截图引用
+
+#### 5f. 生成可编辑 PPTX（可选）
+
+如果用户需要 PowerPoint 格式的可编辑文件：
+
+```bash
+python3 ~/.claude/skills/moi-bid-defense/scripts/generate_pptx.py <投喂版.md路径> <输出.pptx路径>
+```
+
+- 基于投喂版 Markdown 自动生成 16:9 宽屏 `.pptx`
+- 封面/封底 IKB 蓝底，正文白底/暗底交替
+- 所有文字独立文本框，PowerPoint / WPS / Keynote 均可打开编辑
+- 依赖 `python-pptx`（`pip3 install python-pptx`）
+
+#### 5g. 输出文件清单
 
 | 文件 | 说明 |
 |------|------|
 | `讲标幻灯片-<项目名>.md` | 完整 Markdown 大纲（含讲标备注内联） |
 | `讲标幻灯片-<项目名>-投喂版.md` | 投喂版（画面与备注分离） |
 | `ppt/index.html` | HTML 网页幻灯片（单文件，浏览器即开即用） |
+| `ppt/screenshots/` | 逐页截图（自动生成，用于视觉审查） |
+| `视觉诊断报告.md` | 逐页诊断结果 + 截图引用（可交付客户 review） |
+| `ppt/讲标幻灯片.pptx` | 可编辑 PPTX（可选，基于投喂版生成） |
 
 ---
 
@@ -400,11 +483,14 @@ git clone https://github.com/op7418/guizang-ppt-skill ~/.claude/skills/guizang-p
 11. **主动建议 HTML 生成**：Markdown 审核通过后，必须主动询问用户是否生成 HTML 网页幻灯片（推荐 guizang-ppt），不要等用户自己提
 12. **guizang-ppt 自动安装**：如果用户同意使用 guizang-ppt 但未安装，展示安装命令并征得同意后自动执行安装，然后调用生成
 13. **幻灯片与备注严格分离**：生成 HTML 前必须编辑投喂版 Markdown——画面内容进幻灯片，讲标备注和 Q&A 预判放入文件末尾备注区，不渲染到画面
-14. **生成后逐页检查**：HTML 生成后必须逐页视觉检查——内容稀疏的补内容、字号过小的放大、颜色不可读的修复、深色底效果不好就统一改白底
+14. **自动化视觉检查**：HTML 生成后必须执行 Step 5d 的自动截图+诊断+修复循环。使用 `scripts/screenshot_slides.py` 逐页截图，用 Read 工具读图诊断，发现问题直接编辑 HTML 修复后重新截图验证。不允许依赖用户手动截图反馈
 15. **支持用户指定工具**：用户可以不选 guizang-ppt，指定其他 PPT 工具（PPTX / Keynote / Google Slides / 任意 skill）
+16. **HTML→PPTX 导出**：如需可编辑 PPTX，使用 python-pptx 基于投喂版 Markdown 直接生成，所有文字独立文本框可编辑
 
 ## 参考文件
 
 - `references/defense-strategy.md` — 讲标策略详细指南（叙事策略、时间分配、评委心理）
 - `scripts/parse_response.py` — 响应文件解析脚本
 - `scripts/extract_threads.py` — 黄金线索提取评分脚本
+- `scripts/screenshot_slides.py` — HTML 幻灯片自动截图脚本（Step 5d，依赖 playwright）
+- `scripts/generate_pptx.py` — 投喂版 Markdown → 可编辑 PPTX 转换脚本（Step 5f，依赖 python-pptx）
