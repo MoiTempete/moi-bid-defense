@@ -44,6 +44,22 @@ git clone https://github.com/MoiTempete/moi-bid-defense ~/.claude/skills/moi-bid
 把这些幻灯片渲染成瑞士风 HTML，投屏用。
 ```
 
+### 支持多文件素材导入
+
+除了响应文件外，可以一次性提供多份补充素材，Agent 会在 Step 1 统一收集和索引：
+
+```text
+帮我根据技术响应文件生成讲标幻灯片。
+
+补充素材：
+- 公司介绍：/path/to/公司介绍.docx
+- 企业业绩：/path/to/企业业绩.docx
+- 技术偏离表：/path/to/技术偏离.docx
+- 技术架构图插入架构总览页后面：/path/to/技术架构图.png
+```
+
+支持的补充素材类型：公司/团队介绍、业绩清单、技术偏离表、产品白皮书、架构图/流程图、现场照片/案例图、已完成的讲标完整稿。详见 [SKILL.md 输入要求](./SKILL.md#补充素材文件)。
+
 ## 效果
 
 - 🔬 **黄金线索自动提取**：三维评分模型（痛点回应 + 差异化亮点 + 量化冲击力），从数万字响应中自动识别最具讲标价值的内容
@@ -259,6 +275,26 @@ npx skills add https://github.com/MoiTempete/guizang-ppt-skill --skill guizang-p
 **完整链路**：招标文件 (.docx) → `moi-bid-response` → 技术响应 (.docx/.md) → `moi-bid-defense` → 讲标幻灯片 (.html)
 
 ## 更新日志
+
+### 2026-07-09
+
+**多文件素材导入**
+
+- 输入要求从「单一响应文件」扩展为支持批量导入多份补充素材
+- 支持 .docx / .pdf / .md / .png / .jpg / .xlsx 等多种格式
+- 图片素材可指定引用位置（独立页 / 版式图片槽 / 卡片配图）
+- Step 1 从「解析响应文件」升级为「收集素材与解析文件」，新增素材清单汇总
+- 素材清单支持 Markdown 格式声明或对话中逐个指认
+
+**Swiss 版式实战规则**
+
+- `references/defense-strategy.md` 新增 77 行实战规则：18 种讲标内容→最佳 S 版式映射表、主题节奏规则、投屏字号底线、6 个常见雷区及修复方法
+- 规则来自广汇能源 23 页讲标 deck 的反复修改验证
+
+**screenshot 脚本改进**
+
+- 页数从 HTML 自动检测 `class="slide"` 计数，去除硬编码默认值
+- 动画等待时间延长 + 新增 zoom 重置，提升截图稳定性
 
 ### 2026-06-29
 
