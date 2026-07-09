@@ -12,7 +12,7 @@ import os, sys, time
 from playwright.sync_api import sync_playwright
 
 
-def capture_slides(html_path: str, out_dir: str, page_count: int = 18) -> list[str]:
+def capture_slides(html_path: str, out_dir: str, page_count: int = 23) -> list[str]:
     """Capture screenshots of all slides in an HTML deck.
 
     Args:
@@ -32,12 +32,14 @@ def capture_slides(html_path: str, out_dir: str, page_count: int = 18) -> list[s
         browser = p.chromium.launch(channel="chrome", headless=True)
         page = browser.new_page(viewport={"width": 1920, "height": 1080})
         page.goto(file_url, wait_until="networkidle")
-        page.wait_for_timeout(3000)  # Wait for WebGL + animations
+        page.wait_for_timeout(5000)  # Wait for WebGL + animations
+        page.evaluate("document.body.style.zoom = '100%'")
+        page.wait_for_timeout(500)   # Let layout reflow after zoom
 
         for i in range(page_count):
             if i > 0:
                 page.keyboard.press("ArrowRight")
-                page.wait_for_timeout(1500)  # Wait for slide transition
+                page.wait_for_timeout(2500)  # Wait for slide transition
 
             path = os.path.join(out_dir, f"P{i + 1:02d}.png")
             page.screenshot(path=path, full_page=False)
