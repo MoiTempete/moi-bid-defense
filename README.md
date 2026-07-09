@@ -10,7 +10,7 @@
 核心流程：解析响应文件 → 黄金线索三维评分提取 → 按叙事策略编排幻灯片大纲 → 逐页编写（含讲标备注 + 预判 Q&A）→ 投喂版编辑（画面与备注分离）→ guizang-ppt 渲染为单文件 HTML。
 
 > 由 [MoiTempete](https://github.com/MoiTempete) 基于真实化工安全生产信息化项目的中标讲标实践沉淀而成。
-> HTML 渲染引擎由 [歸藏](https://github.com/op7418) 的 [guizang-ppt](https://github.com/op7418/guizang-ppt-skill) 提供（360 安全龙虾金牌赞助 / 真格 Token Grant 支持）。
+> HTML 渲染引擎基于 [歸藏](https://github.com/op7418) 的 [guizang-ppt](https://github.com/MoiTempete/guizang-ppt-skill)（360 安全龙虾金牌赞助 / 真格 Token Grant 支持），使用 [MoiTempete 维护的 fork 版本](https://github.com/MoiTempete/guizang-ppt-skill)，包含讲标场景实战验证的模板修复。
 
 ## 30 秒开始
 
@@ -111,7 +111,7 @@ git clone https://github.com/MoiTempete/moi-bid-defense ~/.claude/skills/moi-bid
 `moi-bid-defense` 首次生成 HTML 幻灯片时会自动引导安装 guizang-ppt：
 
 ```bash
-npx skills add https://github.com/op7418/guizang-ppt-skill --skill guizang-ppt-skill
+npx skills add https://github.com/MoiTempete/guizang-ppt-skill --skill guizang-ppt-skill
 ```
 
 ### 触发方式
@@ -250,10 +250,10 @@ npx skills add https://github.com/MoiTempete/moi-bid-response --skill moi-bid-re
 
 ### 渲染引擎 — HTML 幻灯片
 
-**[`guizang-ppt`](https://github.com/op7418/guizang-ppt-skill)** — 单文件 HTML 横向翻页 PPT，提供瑞士国际主义和电子杂志两套视觉系统。`moi-bid-defense` 首次渲染时会自动引导安装。
+**[`guizang-ppt`](https://github.com/MoiTempete/guizang-ppt-skill)** — 单文件 HTML 横向翻页 PPT，提供瑞士国际主义和电子杂志两套视觉系统。`moi-bid-defense` 首次渲染时会自动引导安装。
 
 ```bash
-npx skills add https://github.com/op7418/guizang-ppt-skill --skill guizang-ppt-skill
+npx skills add https://github.com/MoiTempete/guizang-ppt-skill --skill guizang-ppt-skill
 ```
 
 **完整链路**：招标文件 (.docx) → `moi-bid-response` → 技术响应 (.docx/.md) → `moi-bid-defense` → 讲标幻灯片 (.html)
@@ -306,4 +306,4 @@ AGPL-3.0 © 2026 [MoiTempete](https://github.com/MoiTempete)
 
 ---
 
-> HTML 渲染引擎 [guizang-ppt](https://github.com/op7418/guizang-ppt-skill) 由 [歸藏](https://x.com/op7418) 创建维护。本项目仅集成调用，不包含 guizang-ppt 代码。
+> HTML 渲染引擎基于 [歸藏](https://x.com/op7418) 原版 [guizang-ppt](https://github.com/op7418/guizang-ppt-skill)（360 安全龙虾金牌赞助 / 真格 Token Grant 支持）。本项目使用 [MoiTempete 维护的 fork](https://github.com/MoiTempete/guizang-ppt-skill)，包含讲标场景实战验证的模板修复。

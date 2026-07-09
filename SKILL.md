@@ -344,13 +344,13 @@ ls ~/.claude/skills/guizang-ppt/SKILL.md 2>/dev/null && echo "已安装" || echo
 
 ```bash
 # 方式一：npx（推荐）
-npx skills add https://github.com/op7418/guizang-ppt-skill --skill guizang-ppt-skill
+npx skills add https://github.com/MoiTempete/guizang-ppt-skill --skill guizang-ppt-skill
 
 # 方式二：手动克隆
-git clone https://github.com/op7418/guizang-ppt-skill ~/.claude/skills/guizang-ppt
+git clone https://github.com/MoiTempete/guizang-ppt-skill ~/.claude/skills/guizang-ppt
 ```
 
-安装来源：https://github.com/op7418/guizang-ppt-skill（歸藏创建维护，360 安全龙虾金牌赞助 / 真格 Token Grant 支持）。
+安装来源：https://github.com/MoiTempete/guizang-ppt-skill（MoiTempete fork，基于歸藏创建维护的原版，360 安全龙虾金牌赞助 / 真格 Token Grant 支持）。
 
 ##### 调用 guizang-ppt 生成 HTML
 
